@@ -6,458 +6,392 @@
 <title>Zyryll Jemson Galang — Portfolio</title>
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400;500;600;700;800&family=IBM+Plex+Sans:wght@400;500;600;700&display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,400;9..144,500;9..144,600;9..144,700&family=Work+Sans:wght@400;500;600&display=swap" rel="stylesheet">
 <style>
   :root{
-    --bg:#0b0e14;
-    --bg-panel:#11151c;
-    --bg-panel-alt:#161b24;
-    --border:#232935;
-    --text:#c8d1dc;
-    --text-dim:#6b7685;
-    --text-bright:#eef1f5;
-    --keyword:#b392f0;
-    --string:#e3b341;
-    --func:#7ee787;
-    --pink:#ec6a9c;
-    --mono:'JetBrains Mono', ui-monospace, monospace;
-    --sans:'IBM Plex Sans', system-ui, sans-serif;
-    --radius:6px;
+    --bg:#F6EEE1;
+    --bg-alt:#EFE2CB;
+    --panel:#FBF6EC;
+    --ink:#2B1B14;
+    --espresso:#4A2E22;
+    --brown-soft:#7A5B44;
+    --gold:#A97C43;
+    --wine:#6E2E3A;
+    --border:#DED0B4;
+    --serif:'Fraunces', Georgia, serif;
+    --sans:'Work Sans', system-ui, sans-serif;
   }
 
   *{box-sizing:border-box;}
   html{scroll-behavior:smooth;}
   @media (prefers-reduced-motion: reduce){
     html{scroll-behavior:auto;}
-    *{animation-duration:0.001ms !important; animation-iteration-count:1 !important; transition-duration:0.001ms !important;}
+    *{animation-duration:.001ms !important; transition-duration:.001ms !important;}
   }
 
   body{
     margin:0;
-    background:
-      radial-gradient(1200px 600px at 15% -10%, rgba(179,146,240,0.08), transparent 60%),
-      radial-gradient(1000px 500px at 100% 0%, rgba(126,231,135,0.05), transparent 55%),
-      var(--bg);
-    color:var(--text);
+    background:var(--bg);
+    color:var(--ink);
     font-family:var(--sans);
-    line-height:1.55;
+    line-height:1.65;
   }
 
   a{color:inherit;}
+  ::selection{background:rgba(169,124,67,0.25);}
+  :focus-visible{outline:2px solid var(--gold); outline-offset:3px; border-radius:2px;}
 
-  ::selection{background:rgba(179,146,240,0.35); color:var(--text-bright);}
+  .container{max-width:880px; margin:0 auto; padding:0 28px;}
 
-  :focus-visible{
-    outline:2px solid var(--func);
-    outline-offset:2px;
-    border-radius:3px;
+  /* ---------- header ---------- */
+  header{
+    position:sticky; top:0; z-index:10;
+    background:rgba(246,238,225,0.92);
+    backdrop-filter:blur(6px);
+    border-bottom:1px solid var(--border);
   }
+  .header-row{
+    display:flex; align-items:center; justify-content:space-between;
+    padding:18px 0;
+  }
+  .brand{
+    font-family:var(--serif);
+    font-weight:600;
+    font-size:19px;
+    letter-spacing:0.2px;
+    text-decoration:none;
+    color:var(--espresso);
+  }
+  .brand span{color:var(--gold);}
+  nav.links{display:flex; gap:30px;}
+  nav.links a{
+    font-size:13px;
+    text-decoration:none;
+    text-transform:uppercase;
+    letter-spacing:1.2px;
+    color:var(--brown-soft);
+    font-weight:500;
+    padding-bottom:3px;
+    border-bottom:1px solid transparent;
+    transition:color .15s ease, border-color .15s ease;
+  }
+  nav.links a:hover{color:var(--wine); border-color:var(--wine);}
 
-  /* ---------- IDE window shell ---------- */
-  .ide{
-    max-width:960px;
-    margin:28px auto;
-    border:1px solid var(--border);
-    border-radius:10px;
+  /* ---------- hero / about ---------- */
+  .hero{
+    padding:72px 0 60px;
+    position:relative;
     overflow:hidden;
-    box-shadow:0 40px 80px -30px rgba(0,0,0,0.7);
   }
-
-  .titlebar{
+  .hero::before{
+    content:"";
+    position:absolute;
+    top:-140px; right:-140px;
+    width:420px; height:420px;
+    border-radius:50%;
+    border:22px solid rgba(169,124,67,0.10);
+    pointer-events:none;
+  }
+  .hero-inner{
     display:flex;
     align-items:center;
-    gap:14px;
-    background:var(--bg-panel-alt);
-    border-bottom:1px solid var(--border);
-    padding:10px 16px;
+    gap:44px;
+    position:relative;
   }
-  .dots{display:flex; gap:7px;}
-  .dot{width:11px; height:11px; border-radius:50%;}
-  .dot.red{background:#e0666d;}
-  .dot.yellow{background:#e6c17a;}
-  .dot.green{background:#7ee787;}
-  .titlebar-path{
-    font-family:var(--mono);
-    font-size:12.5px;
-    color:var(--text-dim);
-    letter-spacing:0.2px;
-  }
-  .titlebar-path span{color:var(--string);}
-
-  /* ---------- tab bar / nav ---------- */
-  .tabs{
-    display:flex;
-    background:var(--bg-panel);
-    border-bottom:1px solid var(--border);
-    overflow-x:auto;
-  }
-  .tab{
-    font-family:var(--mono);
-    font-size:13px;
-    color:var(--text-dim);
-    text-decoration:none;
-    padding:11px 18px;
-    border-right:1px solid var(--border);
-    border-bottom:2px solid transparent;
-    white-space:nowrap;
-    transition:color .15s ease, border-color .15s ease, background .15s ease;
-  }
-  .tab:hover{color:var(--text-bright); background:rgba(255,255,255,0.02);}
-  .tab .dim{color:var(--text-dim);}
-  .tab.active{color:var(--text-bright); border-bottom-color:var(--func); background:var(--bg);}
-
-  main{background:var(--bg);}
-
-  .pane{
-    display:flex;
-    border-bottom:1px solid var(--border);
-  }
-  .pane:last-of-type{border-bottom:none;}
-
-  .gutter{
+  .frame{
     flex:0 0 auto;
-    width:46px;
-    padding:28px 0;
-    text-align:right;
-    font-family:var(--mono);
-    font-size:12px;
-    color:#2b3240;
-    background:var(--bg-panel);
-    border-right:1px solid var(--border);
-    user-select:none;
+    width:148px; height:148px;
+    border-radius:50%;
+    padding:6px;
+    background:conic-gradient(from 200deg, var(--gold), var(--wine), var(--gold));
   }
-  .gutter span{display:block; height:24px; padding-right:12px;}
-
-  .pane-body{
-    flex:1;
-    padding:28px 26px 32px;
-    min-width:0;
-  }
-
-  .comment{color:var(--text-dim);}
-  .kw{color:var(--keyword); font-weight:600;}
-  .str{color:var(--string);}
-  .fn{color:var(--func);}
-
-  /* ---------- about ---------- */
-  .about-head{
-    font-family:var(--mono);
-    font-size:13px;
-    color:var(--text-dim);
-    margin:0 0 18px;
-  }
-
-  .profile{
-    display:flex;
-    gap:24px;
-    align-items:flex-start;
-  }
-  .avatar-wrap{
-    flex:0 0 auto;
-    width:104px; height:104px;
-    border-radius:var(--radius);
+  .frame-inner{
+    width:100%; height:100%;
+    border-radius:50%;
     overflow:hidden;
-    border:1px solid var(--border);
-    background:var(--bg-panel-alt);
+    border:4px solid var(--bg);
+    background:var(--bg-alt);
   }
-  .avatar-wrap img{width:100%; height:100%; object-fit:cover; display:block;}
+  .frame-inner img{width:100%; height:100%; object-fit:cover; display:block;}
 
-  .identity h1{
-    font-family:var(--mono);
-    font-size:26px;
-    margin:0 0 2px;
-    color:var(--text-bright);
-    font-weight:700;
+  .eyebrow{
+    font-size:12.5px;
+    letter-spacing:2px;
+    text-transform:uppercase;
+    color:var(--gold);
+    font-weight:600;
+    margin:0 0 10px;
   }
-  .identity h1 .kw{font-size:16px; margin-right:2px;}
+  h1{
+    font-family:var(--serif);
+    font-size:clamp(30px, 4.4vw, 44px);
+    font-weight:600;
+    line-height:1.1;
+    margin:0 0 10px;
+    color:var(--espresso);
+  }
   .role{
-    font-family:var(--mono);
-    font-size:13.5px;
-    color:var(--func);
-    margin:0 0 12px;
-  }
-  .bio-block{
-    background:var(--bg-panel);
-    border:1px solid var(--border);
-    border-left:3px solid var(--pink);
-    border-radius:4px;
-    padding:10px 14px;
-    font-family:var(--mono);
-    font-size:13px;
-    color:var(--text-dim);
+    font-size:15.5px;
+    color:var(--brown-soft);
     margin:0 0 16px;
   }
-  .contact-row{
-    display:flex; align-items:center; gap:10px;
-    font-family:var(--mono);
-    font-size:14px;
-    color:var(--text);
+  .tagline{
+    font-family:var(--serif);
+    font-style:italic;
+    font-size:16px;
+    color:var(--wine);
+    margin:0 0 18px;
   }
-  .contact-row svg{width:16px; height:16px; color:var(--func); flex:0 0 auto;}
+  .contact{
+    display:inline-flex; align-items:center; gap:9px;
+    font-size:14.5px;
+    color:var(--ink);
+    background:var(--panel);
+    border:1px solid var(--border);
+    padding:8px 14px;
+    border-radius:999px;
+  }
+  .contact svg{width:15px; height:15px; color:var(--gold); flex:0 0 auto;}
 
-  /* ---------- section titles inside panes ---------- */
+  /* ---------- section shell ---------- */
+  section{padding:56px 0;}
+  section:not(:last-of-type){border-bottom:1px solid var(--border);}
+  .section-head{margin-bottom:34px;}
   .section-eyebrow{
-    font-family:var(--mono);
-    font-size:12.5px;
-    color:var(--text-dim);
-    margin:0 0 4px;
+    font-size:12px;
+    letter-spacing:2px;
+    text-transform:uppercase;
+    color:var(--gold);
+    font-weight:600;
+    margin:0 0 8px;
   }
   .section-title{
-    font-family:var(--mono);
-    font-size:19px;
-    color:var(--text-bright);
-    margin:0 0 20px;
-    font-weight:700;
-  }
-
-  /* ---------- education: commit log ---------- */
-  .log-item{
-    display:flex;
-    gap:16px;
-    padding:14px 0;
-    border-top:1px dashed var(--border);
-  }
-  .log-item:first-of-type{border-top:none;}
-  .log-hash{
-    font-family:var(--mono);
-    font-size:13px;
-    color:var(--string);
-    flex:0 0 auto;
-    padding-top:1px;
-  }
-  .log-body h3{
-    margin:0 0 3px;
-    font-size:15.5px;
-    color:var(--text-bright);
-    font-family:var(--sans);
+    font-family:var(--serif);
+    font-size:28px;
     font-weight:600;
-  }
-  .log-body p{margin:0; font-size:13.5px; color:var(--text-dim);}
-  .log-body .place{
-    font-family:var(--mono);
-    font-size:12px;
-    color:var(--keyword);
+    color:var(--espresso);
+    margin:0;
   }
 
-  /* ---------- projects: file tree ---------- */
-  .file-row{
-    display:flex;
-    align-items:flex-start;
-    gap:14px;
-    padding:14px;
+  /* ---------- education timeline ---------- */
+  .timeline{position:relative; padding-left:26px;}
+  .timeline::before{
+    content:"";
+    position:absolute;
+    left:5px; top:6px; bottom:6px;
+    width:1px;
+    background:var(--border);
+  }
+  .t-item{position:relative; padding-bottom:30px;}
+  .t-item:last-child{padding-bottom:0;}
+  .t-item::before{
+    content:"";
+    position:absolute;
+    left:-26px; top:5px;
+    width:11px; height:11px;
+    border-radius:50%;
+    background:var(--gold);
+    border:3px solid var(--bg);
+    box-shadow:0 0 0 1px var(--gold);
+  }
+  .t-item h3{
+    font-family:var(--serif);
+    font-size:18px;
+    font-weight:600;
+    margin:0 0 3px;
+    color:var(--espresso);
+  }
+  .t-item p{margin:0; font-size:14.5px; color:var(--brown-soft);}
+  .t-item .place{font-size:13px; color:var(--wine); margin-top:2px;}
+
+  /* ---------- projects ---------- */
+  .cards{display:grid; grid-template-columns:1fr 1fr; gap:20px;}
+  .card{
+    background:var(--panel);
     border:1px solid var(--border);
-    border-radius:var(--radius);
-    background:var(--bg-panel);
-    margin-bottom:12px;
+    border-radius:10px;
+    padding:24px;
     transition:border-color .15s ease, transform .15s ease;
   }
-  .file-row:hover{border-color:var(--func); transform:translateX(2px);}
-  .file-ext{
-    flex:0 0 auto;
-    width:40px; height:40px;
-    border-radius:5px;
+  .card:hover{border-color:var(--gold); transform:translateY(-2px);}
+  .card-icon{
+    width:38px; height:38px;
+    border-radius:8px;
     display:flex; align-items:center; justify-content:center;
-    font-family:var(--mono);
-    font-size:11px;
-    font-weight:700;
-    color:#0b0e14;
+    background:var(--bg-alt);
+    color:var(--wine);
+    margin-bottom:14px;
   }
-  .ext-html{background:var(--string);}
-  .ext-py{background:var(--func);}
-  .file-info h3{
-    margin:0 0 3px;
-    font-family:var(--mono);
-    font-size:14.5px;
-    color:var(--text-bright);
+  .card-icon svg{width:19px; height:19px;}
+  .card h3{
+    font-family:var(--serif);
+    font-size:17px;
+    font-weight:600;
+    margin:0 0 8px;
+    color:var(--espresso);
   }
-  .file-info p{margin:0; font-size:13.5px; color:var(--text-dim);}
+  .card p{margin:0; font-size:14px; color:var(--brown-soft);}
 
-  /* ---------- github: terminal ---------- */
-  .terminal{
-    background:#080a0f;
-    border:1px solid var(--border);
-    border-radius:var(--radius);
-    padding:18px 20px;
-    font-family:var(--mono);
-    font-size:13.5px;
-  }
-  .terminal .line{margin:0 0 10px; display:flex; gap:8px; flex-wrap:wrap;}
-  .terminal .prompt{color:var(--func);}
-  .terminal .path{color:var(--keyword);}
-  .terminal a.out{
-    color:var(--string);
+  /* ---------- github ---------- */
+  .cta-row{display:flex; gap:14px; flex-wrap:wrap;}
+  .btn{
+    display:inline-flex; align-items:center; gap:10px;
+    padding:12px 22px;
+    border-radius:8px;
     text-decoration:none;
-    border-bottom:1px dashed rgba(227,179,65,0.4);
+    font-size:14px;
+    font-weight:500;
+    border:1px solid var(--border);
+    transition:background .15s ease, color .15s ease, border-color .15s ease;
   }
-  .terminal a.out:hover{color:var(--text-bright); border-bottom-color:var(--text-bright);}
-  .cursor{
-    display:inline-block;
-    width:7px; height:14px;
-    background:var(--func);
-    animation:blink 1s steps(1) infinite;
-    vertical-align:middle;
-  }
-  @keyframes blink{50%{opacity:0;}}
+  .btn svg{width:17px; height:17px;}
+  .btn-solid{background:var(--espresso); color:var(--panel); border-color:var(--espresso);}
+  .btn-solid:hover{background:var(--wine); border-color:var(--wine);}
+  .btn-line{background:transparent; color:var(--espresso);}
+  .btn-line:hover{border-color:var(--gold); color:var(--wine);}
 
-  /* ---------- status bar ---------- */
-  .statusbar{
-    display:flex;
-    justify-content:space-between;
-    align-items:center;
-    background:var(--func);
-    color:#0b0e14;
-    font-family:var(--mono);
-    font-size:11.5px;
-    font-weight:700;
-    padding:6px 16px;
-    letter-spacing:0.2px;
+  /* ---------- footer ---------- */
+  footer{
+    padding:26px 0 40px;
+    text-align:center;
+    font-size:13px;
+    color:var(--brown-soft);
   }
-  .statusbar span{display:flex; align-items:center; gap:6px;}
 
-  /* ---------- responsive ---------- */
-  @media (max-width:620px){
-    .ide{margin:0; border-radius:0; border-left:none; border-right:none;}
-    .gutter{width:32px;}
-    .pane-body{padding:20px 16px 26px;}
-    .profile{flex-direction:column; align-items:center; text-align:center;}
-    .contact-row{justify-content:center;}
-    .identity h1{font-size:22px;}
-    .titlebar-path{display:none;}
-    .statusbar{flex-direction:column; gap:4px; align-items:flex-start;}
+  @media (max-width:640px){
+    nav.links{display:none;}
+    .hero-inner{flex-direction:column; text-align:center; gap:22px;}
+    .contact{margin:0 auto;}
+    .cards{grid-template-columns:1fr;}
+    section{padding:42px 0;}
   }
 </style>
 </head>
 <body>
 
-<div class="ide">
+<header>
+  <div class="container header-row">
+    <a href="#" class="brand">Zyryll<span>.</span>Galang</a>
+    <nav class="links">
+      <a href="#about">About</a>
+      <a href="#education">Education</a>
+      <a href="#projects">Projects</a>
+      <a href="#github">GitHub</a>
+    </nav>
+  </div>
+</header>
 
-  <div class="titlebar">
-    <div class="dots">
-      <span class="dot red"></span>
-      <span class="dot yellow"></span>
-      <span class="dot green"></span>
+<main>
+
+  <!-- ABOUT -->
+  <section id="about" class="hero">
+    <div class="container hero-inner">
+      <div class="frame">
+        <div class="frame-inner">
+          <img src="/image/me.jpg" alt="Zyryll Jemson B. Galang" onerror="this.src='https://via.placeholder.com/300x300/EFE2CB/7A5B44?text=Photo'; this.onerror=null;">
+        </div>
+      </div>
+      <div>
+        <p class="eyebrow">Portfolio</p>
+        <h1>Zyryll Jemson B. Galang</h1>
+        <p class="role">BSIT · 4th Year Student</p>
+        <p class="tagline">"Lazy, but talented."</p>
+        <div class="contact">
+          <svg fill="none" stroke="currentColor" viewBox="0 0 24 24">
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 5a2 2 0 012-2h3.28a1 1 0 01.948.684l1.498 4.493a1 1 0 01-.502 1.21l-2.257 1.13a11.042 11.042 0 005.516 5.516l1.13-2.257a1 1 0 011.21-.502l4.493 1.498a1 1 0 01.684.949V19a2 2 0 01-2 2h-1C9.716 21 3 14.284 3 6V5z"></path>
+          </svg>
+          <span>0953 610 6529</span>
+        </div>
+      </div>
     </div>
-    <div class="titlebar-path">~/portfolio/<span>zyryll-galang</span></div>
-  </div>
+  </section>
 
-  <nav class="tabs">
-    <a href="#about" class="tab active"><span class="dim">01</span> about.tsx</a>
-    <a href="#education" class="tab"><span class="dim">02</span> education.log</a>
-    <a href="#projects" class="tab"><span class="dim">03</span> projects/</a>
-    <a href="#github" class="tab"><span class="dim">04</span> github.sh</a>
-  </nav>
-
-  <main>
-
-    <!-- ABOUT -->
-    <section id="about" class="pane">
-      <div class="gutter"><span>1</span><span>2</span><span>3</span><span>4</span><span>5</span><span>6</span><span>7</span><span>8</span></div>
-      <div class="pane-body">
-        <p class="about-head"><span class="comment">// identity card</span></p>
-        <div class="profile">
-          <div class="avatar-wrap">
-            <img src="/image/me.jpg" alt="Zyryll Jemson B. Galang" onerror="this.src='https://via.placeholder.com/208x208/161b24/6b7685?text=Photo'; this.onerror=null;">
-          </div>
-          <div class="identity">
-            <h1><span class="kw">const</span> galang <span class="fn">=</span></h1>
-            <p class="role">BSIT · 4th Year Student</p>
-            <p class="bio-block">/* lazy but talented. */</p>
-            <div class="contact-row">
-              <svg fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 5a2 2 0 012-2h3.28a1 1 0 01.948.684l1.498 4.493a1 1 0 01-.502 1.21l-2.257 1.13a11.042 11.042 0 005.516 5.516l1.13-2.257a1 1 0 011.21-.502l4.493 1.498a1 1 0 01.684.949V19a2 2 0 01-2 2h-1C9.716 21 3 14.284 3 6V5z"></path>
-              </svg>
-              <span>0953 610 6529</span>
-            </div>
-          </div>
-        </div>
-      </div>
-    </section>
-
-    <!-- EDUCATION -->
-    <section id="education" class="pane">
-      <div class="gutter"><span>9</span><span>10</span><span>11</span><span>12</span><span>13</span><span>14</span><span>15</span><span>16</span><span>17</span></div>
-      <div class="pane-body">
-        <p class="section-eyebrow comment">// git log --education --reverse</p>
+  <!-- EDUCATION -->
+  <section id="education">
+    <div class="container">
+      <div class="section-head">
+        <p class="section-eyebrow">Background</p>
         <h2 class="section-title">Educational Background</h2>
-
-        <div class="log-item">
-          <div class="log-hash">a3f9c1</div>
-          <div class="log-body">
-            <h3>Data Center College of the Philippines</h3>
-            <p>Bachelor of Information Technology — 4th Year</p>
-            <p class="place">Ubbog Lipcan, Bangued, Abra</p>
-          </div>
+      </div>
+      <div class="timeline">
+        <div class="t-item">
+          <h3>Data Center College of the Philippines</h3>
+          <p>Bachelor of Information Technology — 4th Year</p>
+          <p class="place">Ubbog Lipcan, Bangued, Abra</p>
         </div>
-
-        <div class="log-item">
-          <div class="log-hash">7d0e42</div>
-          <div class="log-body">
-            <h3>Little Flower High School</h3>
-            <p>Secondary Education</p>
-            <p class="place">Poblacion, Peñarrubia, Abra</p>
-          </div>
+        <div class="t-item">
+          <h3>Little Flower High School</h3>
+          <p>Secondary Education</p>
+          <p class="place">Poblacion, Peñarrubia, Abra</p>
         </div>
-
-        <div class="log-item">
-          <div class="log-hash">1b2a08</div>
-          <div class="log-body">
-            <h3>Sappaac Elementary School</h3>
-            <p>Elementary Education</p>
-            <p class="place">Sappaac, Bangued, Abra</p>
-          </div>
+        <div class="t-item">
+          <h3>Sappaac Elementary School</h3>
+          <p>Elementary Education</p>
+          <p class="place">Sappaac, Bangued, Abra</p>
         </div>
       </div>
-    </section>
+    </div>
+  </section>
 
-    <!-- PROJECTS -->
-    <section id="projects" class="pane">
-      <div class="gutter"><span>18</span><span>19</span><span>20</span><span>21</span><span>22</span><span>23</span><span>24</span></div>
-      <div class="pane-body">
-        <p class="section-eyebrow comment">// ls -la ./projects</p>
+  <!-- PROJECTS -->
+  <section id="projects">
+    <div class="container">
+      <div class="section-head">
+        <p class="section-eyebrow">Selected Work</p>
         <h2 class="section-title">Projects</h2>
-
-        <div class="file-row">
-          <div class="file-ext ext-html">HTML</div>
-          <div class="file-info">
-            <h3>html-development/</h3>
-            <p>A static website built with an emphasis on layout design and page interactivity.</p>
+      </div>
+      <div class="cards">
+        <div class="card">
+          <div class="card-icon">
+            <svg fill="none" stroke="currentColor" viewBox="0 0 24 24">
+              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M10 20l4-16m4 4l4 4-4 4M6 16l-4-4 4-4"></path>
+            </svg>
           </div>
+          <h3>HTML Development</h3>
+          <p>A static website built with an emphasis on layout design and page interactivity.</p>
         </div>
-
-        <div class="file-row">
-          <div class="file-ext ext-py">PY</div>
-          <div class="file-info">
-            <h3>flask-project/</h3>
-            <p>A backend application built with Flask, covering routing, templating, and app structure.</p>
+        <div class="card">
+          <div class="card-icon">
+            <svg fill="none" stroke="currentColor" viewBox="0 0 24 24">
+              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 3v2m6-2v2M9 19v2m6-2v2M5 9H3m2 6H3m18-6h-2m2 6h-2M7 19h10a2 2 0 002-2V7a2 2 0 00-2-2H7a2 2 0 00-2 2v10a2 2 0 002 2zM9 9h6v6H9V9z"></path>
+            </svg>
           </div>
+          <h3>Flask Project</h3>
+          <p>A backend application built with Flask, covering routing, templating, and app structure.</p>
         </div>
       </div>
-    </section>
+    </div>
+  </section>
 
-    <!-- GITHUB -->
-    <section id="github" class="pane">
-      <div class="gutter"><span>25</span><span>26</span><span>27</span><span>28</span><span>29</span><span>30</span></div>
-      <div class="pane-body">
-        <p class="section-eyebrow comment">// remote origin</p>
+  <!-- GITHUB -->
+  <section id="github">
+    <div class="container">
+      <div class="section-head">
+        <p class="section-eyebrow">Code</p>
         <h2 class="section-title">GitHub Repositories</h2>
-
-        <div class="terminal">
-          <p class="line"><span class="prompt">$</span> <span class="path">open</span> profile <span class="cursor"></span></p>
-          <p class="line">→ <a class="out" href="https://github.com/zjzyryll-12" target="_blank" rel="noopener">github.com/zjzyryll-12</a></p>
-          <p class="line"><span class="prompt">$</span> <span class="path">git clone</span> repository</p>
-          <p class="line">→ <a class="out" href="https://github.com/zjzyryll-12/repository" target="_blank" rel="noopener">github.com/zjzyryll-12/repository</a></p>
-        </div>
       </div>
-    </section>
+      <div class="cta-row">
+        <a href="https://github.com/zjzyryll-12" target="_blank" rel="noopener" class="btn btn-solid">
+          <svg fill="currentColor" viewBox="0 0 24 24">
+            <path d="M12 0c-6.626 0-12 5.373-12 12 0 5.302 3.438 9.8 8.207 11.387.599.111.793-.261.793-.577v-2.234c-3.338.726-4.033-1.416-4.033-1.416-.546-1.387-1.333-1.756-1.333-1.756-1.089-.745.083-.729.083-.729 1.205.084 1.839 1.237 1.839 1.237 1.07 1.834 2.807 1.304 3.492.997.107-.775.418-1.305.762-1.604-2.665-.305-5.467-1.334-5.467-5.931 0-1.311.469-2.381 1.236-3.221-.124-.303-.535-1.524.117-3.176 0 0 1.008-.322 3.301 1.23.957-.266 1.983-.399 3.003-.404 1.02.005 2.047.138 3.006.404 2.291-1.552 3.297-1.23 3.297-1.23.653 1.653.242 2.874.118 3.176.77.84 1.235 1.911 1.235 3.221 0 4.609-2.807 5.624-5.479 5.921.43.372.823 1.102.823 2.222v3.293c0 .319.192.694.801.576 4.765-1.589 8.199-6.086 8.199-11.386 0-6.627-5.373-12-12-12z"/>
+          </svg>
+          View GitHub Profile
+        </a>
+        <a href="https://github.com/zjzyryll-12/repository" target="_blank" rel="noopener" class="btn btn-line">
+          <svg fill="currentColor" viewBox="0 0 24 24">
+            <path d="M12 0c-6.626 0-12 5.373-12 12 0 5.302 3.438 9.8 8.207 11.387.599.111.793-.261.793-.577v-2.234c-3.338.726-4.033-1.416-4.033-1.416-.546-1.387-1.333-1.756-1.333-1.756-1.089-.745.083-.729.083-.729 1.205.084 1.839 1.237 1.839 1.237 1.07 1.834 2.807 1.304 3.492.997.107-.775.418-1.305.762-1.604-2.665-.305-5.467-1.334-5.467-5.931 0-1.311.469-2.381 1.236-3.221-.124-.303-.535-1.524.117-3.176 0 0 1.008-.322 3.301 1.23.957-.266 1.983-.399 3.003-.404 1.02.005 2.047.138 3.006.404 2.291-1.552 3.297-1.23 3.297-1.23.653 1.653.242 2.874.118 3.176.77.84 1.235 1.911 1.235 3.221 0 4.609-2.807 5.624-5.479 5.921.43.372.823 1.102.823 2.222v3.293c0 .319.192.694.801.576 4.765-1.589 8.199-6.086 8.199-11.386 0-6.627-5.373-12-12-12z"/>
+          </svg>
+          Project Repository
+        </a>
+      </div>
+    </div>
+  </section>
 
-  </main>
+</main>
 
-  <div class="statusbar">
-    <span>● main</span>
-    <span>UTF-8 · Ln 30, Col 1 · © 2026 Zyryll Jemson Galang</span>
-  </div>
-
-</div>
+<footer>
+  <div class="container">© 2026 Zyryll Jemson Galang. All rights reserved.</div>
+</footer>
 
 </body>
 </html>
